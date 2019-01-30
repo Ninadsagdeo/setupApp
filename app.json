@@ -16,7 +16,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-
+    "scheme": "Demo",
     "updates": {
       "fallbackToCacheTimeout": 0
     },

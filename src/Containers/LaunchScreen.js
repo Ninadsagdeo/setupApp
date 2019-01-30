@@ -5,11 +5,18 @@ import {
   TextView,
   PrimaryButton
 } from "./styles/commonStyle";
-import { View, Text, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Linking,
+  Button
+} from "react-native";
 import { STATUS_BAR } from "../Themes/Dimensions";
 import LottieView from "lottie-react-native";
 
-import { Contacts } from "expo";
+import { Contacts, IntentLauncherAndroid, WebBrowser } from "expo";
 
 class LaunchScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -42,6 +49,20 @@ class LaunchScreen extends React.Component {
 
   //   }
 
+  _handleOpenWithLinking = () => {
+    Linking.openURL("https://expo.io");
+  };
+
+  _handleOpenWithWebBrowser = () => {
+    WebBrowser.openBrowserAsync("com.instagram.android");
+  };
+
+  intentLaunch = () => {
+    IntentLauncherAndroid.startActivityAsync(
+      IntentLauncherAndroid.ACTION_LOCATION_SOURCE_SETTINGS
+    );
+  };
+
   render() {
     //console.log(this.state.listNumber);
     const renderList = (this.state.listNumber == []
@@ -58,7 +79,7 @@ class LaunchScreen extends React.Component {
           <Container>
             <TextView>Container View</TextView>
           </Container>
-          {console.log(<PrimaryButton />)}
+
           <PrimaryButton
             onPress={() => alert(" CLICKED ON BUTTON ")}
             title={"Click"}
@@ -66,7 +87,7 @@ class LaunchScreen extends React.Component {
             <Text>click here</Text>
           </PrimaryButton>
 
-          <ScrollView style={{ marginTop: 40 }}>{renderList}</ScrollView>
+          {/* <ScrollView style={{ marginTop: 40 }}>{renderList}</ScrollView> */}
           <LottieView
             source={require("../Themes/animation/gift.json")}
             ref={animation => {
@@ -75,6 +96,19 @@ class LaunchScreen extends React.Component {
             loop={false}
           />
         </ContainerFluid>
+
+        <TouchableOpacity onPress={() => this.intentLaunch()}>
+          <Text>GET THIS DONE</Text>
+        </TouchableOpacity>
+
+        <Button
+          title="Open URL with ReactNative.Linking"
+          onPress={this._handleOpenWithLinking}
+        />
+        <Button
+          title="Open URL with Expo.WebBrowser"
+          onPress={this._handleOpenWithWebBrowser}
+        />
       </View>
     );
   }
